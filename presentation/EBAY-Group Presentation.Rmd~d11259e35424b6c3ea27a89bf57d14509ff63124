@@ -1,0 +1,73 @@
+---
+title: "EBAY-Group Presentation"
+subtitle: "Bamberg Summer Institute in Computational Social Science"
+author: ""
+date: "2019-08-08"
+institute: "Marc Luettecke, Florian Gilberg, Manuel Kleinert, Alexander Brand, Johannes Geiger"
+output: 
+  binb::metropolis:
+  html_document:
+    highlight: tango
+fontsize: 11pt
+---
+
+
+```{r setup, include=FALSE}
+# note to students: you can ignore the content of this code chunk
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      tidy = FALSE)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", 
+                          options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+hook_output <- knitr::knit_hooks$get('output')
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+```
+
+
+# Section A (delete befor publication)
+
+
+## Question and Hypotheses
+
+### Research Question
+
+Do economic disparities between German cities/regions influence the prices of used cars?
+
+### Hypothesis 1: 
+The higher a city's GDP per capita, the higher is the expected price of used automobiles.
+
+### Hypothesis 2: 
+Used car prices in rural areas are lower than in urban regions.
+
+```{r eval=FALSE, include=FALSE}
+## This chunk will not run or be published
+
+```
+
+
+## Data
+
+Scraped Ebay Kleinanzeigen for (specific) used car offerings.
+
+
+
+## Slide 3
+### Subtitle 3.1.
+
+Practical applications
+
+Important for Policy makers?
+```{r}
+print("Hello World! Slide 3")
+
+```
