@@ -14,7 +14,7 @@ library(httpuv)
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("First", tabName = "first", icon = icon("th")),
-    menuItem("Second", tabName = "second",icon = icon("dashboard"))
+    menuItem("Map", tabName = "map", icon = icon("dashboard"))
   ),
   
   textInput("selection", "Input your search term:",
@@ -25,9 +25,39 @@ sidebar <- dashboardSidebar(
 
 body <-  dashboardBody(
   tabItems(
+  # First Tab
     tabItem(
       tabName = "first",
       h2("General word count statistics"),
+      fluidRow(
+        infoBoxOutput("countBox"),
+        infoBoxOutput("mostFrequentBox"),
+        tags$style("#countBox {width:400px;}"),
+        tags$style("#mostFrequentBox {width:400px;}"),
+        box(
+          wordcloud2Output("plot", height = 350),
+          sliderInput(
+            "freq",
+            "Minimum Frequency:",
+            min = 1,
+            max = 50,
+            value = 15
+          ),
+          sliderInput(
+            "max",
+            "Maximum Number of Words:",
+            min = 1,
+            max = 300,
+            value = 100
+          ),
+          width = 12
+        )
+      )
+    ),
+  # Second Tab
+    tabItem(
+      tabName = "map",
+      h2("Plot a map"),
       fluidRow(
         infoBoxOutput("countBox"),
         infoBoxOutput("mostFrequentBox"),
@@ -58,7 +88,7 @@ body <-  dashboardBody(
 
 
 ui <- dashboardPage(# Application title
-  dashboardHeader(title = "Twitter scraper"),
+  dashboardHeader(title = "Cars and regional inequalities"),
   sidebar,
   body)
 #Define server logic
@@ -69,6 +99,7 @@ access_token <- "1155914249992097794-YtPSjWWiIedQM5hMLj5LMiFQW99OGc"
 access_secret <- "bfrP4BSxR0eQxYr7ygU5M3WBuNS0W8kgpDj1FUOcbIlR9"
 
 server <- function(input, output, session) {
+  session$onSessionEnded(stopApp) # Stop on Window closing
   tweets_clean <- reactiveValues(df = NULL)
   # Define a reactive expression for the document term matri
   #Here we are creating the "handshake" with Twitter

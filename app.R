@@ -8,7 +8,6 @@ library(tidytext)
 library(wordcloud2)
 
 
-
 ui <- fluidPage(
   # Application title
   titlePanel("Word Cloud"),

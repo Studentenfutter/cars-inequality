@@ -22,6 +22,11 @@ colnames(ext)[which(names(ext) == "RegionalID")] <- "CC_2"
 ger@data <- left_join(ger@data, ext, by = "CC_2")
 ger@data$bip.2016 <- as.numeric(ger@data$bip.2016)
 ger@data$bip.2017 <- as.numeric(ger@data$bip.2017)
+
+# Import PLZ data
+load("data/plz_codes.Rda") # Import codes
+
+
 #create a color palette to fill the polygons
 pal <- colorQuantile("Greens", NULL, n = 5)
 
@@ -33,7 +38,7 @@ polygon_popup <- paste0("<strong>Name: </strong>", ger$NAME_2, "<br>",
                         "<strong>GDP 2017: </strong>", ger$bip.2017, "<br>")
 
 # plot map of total carthefts per region
-leaflet(options = leafletOptions(minZoom = 6)) %>% 
+my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>% 
   addProviderTiles(provider = "CartoDB") %>%
   setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
     # Add absolute crime rates
@@ -62,14 +67,14 @@ leaflet(options = leafletOptions(minZoom = 6)) %>%
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE)) %>%
-  # Add GDP 2016
+  # Add PEK 2016
   addPolygons(data = ger,
-              group = "GDP 2016",
+              group = "PEK 2016",
               stroke = T,
               color = "white",
               weight = 2,
-              fillColor= ~pal(ger$bip.2016),
-              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$bip.2016),
+              fillColor= ~pal(ger$pek.2016),
+              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$pek.2016),
               fillOpacity = 0.5,
               popup = polygon_popup, 
               highlightOptions = highlightOptions(color = "red",
@@ -90,7 +95,7 @@ leaflet(options = leafletOptions(minZoom = 6)) %>%
                                                   bringToFront = TRUE)) %>%
     # Add interactive controls
   addLayersControl(
-    baseGroups = c("Absolute", "Relative", "GDP 2016", "GDP 2017"),
+    baseGroups = c("Absolute", "Relative", "PEK 2016", "GDP 2017"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -113,17 +118,17 @@ relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>%
 
 
 # To plot with shiny - Not working so far
-# library(shiny)
-# 
-# app <- shinyApp(
-#   ui <- fluidPage(leafletOutput('myMap', width = "100%", height = 650)),
-#   server <- function(input, output) {
-#     map <- n
-#     output$myMap <- renderLeaflet(map)
-#   }
-# )
-# shinyApp(ui = ui, server = server)
-# 
+library(shiny)
+
+app <- shinyApp(
+  ui <- fluidPage(leafletOutput('myMap', width = "100%", height = 650)),
+  server <- function(input, output) {
+    map <- n
+    output$myMap <- renderLeaflet(map)
+  }
+)
+shinyApp(ui = ui, server = server)
+
 # ## Weiteres Shinybeispiel - Also not Working
 # library(shiny)    # for shiny apps
 # library(leaflet)  # renderLeaflet function

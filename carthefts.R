@@ -23,5 +23,5 @@ colnames(theft)[which(names(theft) == "Gemeinde-schlüssel")] <- "CC_2"
 
 # Join row of cases with the countries dataset both datasets
 crimes_counties <- left_join(counties, theft, by = "CC_2") #Join matching rows from theft to counties
-crimes_counties <- full_join(theft, counties, by = "CC_2")
-crimes_counties <- arrange(crimes_counties, CC_2)
+# crimes_counties <- full_join(theft, counties, by = "CC_2")
+# crimes_counties <- arrange(crimes_counties, CC_2)
