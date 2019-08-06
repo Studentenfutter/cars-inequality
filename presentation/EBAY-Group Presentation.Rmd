@@ -1,0 +1,45 @@
+---
+title: "Basics of Quantitative Text Analysis"
+subtitle: "Bamberg Summer Institute in Computational Social Science"
+author: "Carsten Schwemmer, University of Bamberg"
+date: "2019-08-01"
+institute: ""
+output: 
+  binb::metropolis:
+  html_document:
+    highlight: tango
+fontsize: 11pt
+---
+
+
+```{r setup, include=FALSE}
+# note to students: you can ignore the content of this code chunk
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      tidy = FALSE)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", 
+                          options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+hook_output <- knitr::knit_hooks$get('output')
+knitr::knit_hooks$set(output = function(x, options) {
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+```
+
+
+# Title 1
+## Subtitle A
+###Subsubtitle B
+```{r}
+print("Hello World!")
+print("Hi")
+```
+
+
