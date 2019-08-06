@@ -7,16 +7,30 @@ library(raster)
 ger <- getData("GADM", country="Germany", level=2) # Change granularity level 1-3, Maybe we get enough detailed data for level 2?
 
 # Match with car theft data from carthefts.R
+# TODO: Fill and match with left_join and @ operatr
 ger$total_carthefts <- crimes_counties$`erfasste Fälle`
 ger$relative_carthefts <- crimes_counties$`HZ nach Zensus`
 
+# Map for gpd per county
+load("data/world.Rda")
+# Remove irrelevant file from memory
+rm(world)
+
+# Change name for Regional ID
+colnames(ext)[which(names(ext) == "RegionalID")] <- "CC_2"
+# Join data
+ger@data <- left_join(ger@data, ext, by = "CC_2")
+ger@data$bip.2016 <- as.numeric(ger@data$bip.2016)
+ger@data$bip.2017 <- as.numeric(ger@data$bip.2017)
 #create a color palette to fill the polygons
 pal <- colorQuantile("Greens", NULL, n = 5)
 
 #create a pop up (onClick)
-polygon_popup <- paste0("<strong>Name: </strong>", crimes_counties$`Stadt-/Landkreis`, "<br>",
-                        "<strong>Fälle: </strong>", crimes_counties$`erfasste Fälle`)
-
+polygon_popup <- paste0("<strong>Name: </strong>", ger$NAME_2, "<br>",
+                        "<strong>Absolute Fälle: </strong>", ger$total_carthefts, "<br>",
+                        "<strong>Relative Fälle: </strong>", ger$relative_carthefts, "<br>",
+                        "<strong>GDP 2016: </strong>", ger$bip.2016, "<br>",
+                        "<strong>GDP 2017: </strong>", ger$bip.2017, "<br>")
 
 # plot map of total carthefts per region
 leaflet(options = leafletOptions(minZoom = 6)) %>% 
@@ -48,9 +62,35 @@ leaflet(options = leafletOptions(minZoom = 6)) %>%
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE)) %>%
+  # Add GDP 2016
+  addPolygons(data = ger,
+              group = "GDP 2016",
+              stroke = T,
+              color = "white",
+              weight = 2,
+              fillColor= ~pal(ger$bip.2016),
+              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$bip.2016),
+              fillOpacity = 0.5,
+              popup = polygon_popup, 
+              highlightOptions = highlightOptions(color = "red",
+                                                  weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  # Add GDP 2017
+  addPolygons(data = ger,
+              group = "GDP 2017",
+              stroke = T,
+              color = "white",
+              weight = 2,
+              fillColor= ~pal(ger$bip.2017),
+              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$bip.2017),
+              fillOpacity = 0.5,
+              popup = polygon_popup, 
+              highlightOptions = highlightOptions(color = "red",
+                                                  weight = 3,
+                                                  bringToFront = TRUE)) %>%
     # Add interactive controls
   addLayersControl(
-    baseGroups = c("Absolute", "Relative"),
+    baseGroups = c("Absolute", "Relative", "GDP 2016", "GDP 2017"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -69,6 +109,8 @@ relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>%
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE))
+
+
 
 # To plot with shiny - Not working so far
 # library(shiny)
