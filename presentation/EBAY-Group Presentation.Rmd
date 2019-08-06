@@ -1,9 +1,9 @@
 ---
-title: "Basics of Quantitative Text Analysis"
+title: "EBAY-Group Presentation"
 subtitle: "Bamberg Summer Institute in Computational Social Science"
-author: "Carsten Schwemmer, University of Bamberg"
-date: "2019-08-01"
-institute: ""
+author: ""
+date: "2019-08-08"
+institute: "Marc Luettecke, Florian Gilberg, Manuel Kleinert, Alexander Brand, Johannes Geiger"
 output: 
   binb::metropolis:
   html_document:
@@ -34,12 +34,40 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```
 
 
-# Title 1
-## Subtitle A
-###Subsubtitle B
-```{r}
-print("Hello World!")
-print("Hi")
+# Section A (delete befor publication)
+
+
+## Question and Hypotheses
+
+### Research Question
+
+Do economic disparities between German cities/regions influence the prices of used cars?
+
+### Hypothesis 1: 
+The higher a city's GDP per capita, the higher is the expected price of used automobiles.
+
+### Hypothesis 2: 
+Used car prices in rural areas are lower than in urban regions.
+
+```{r eval=FALSE, include=FALSE}
+## This chunk will not run or be published
+
 ```
 
 
+## Data
+
+Scraped Ebay Kleinanzeigen for (specific) used car offerings.
+
+
+
+## Slide 3
+### Subtitle 3.1.
+
+Practical applications
+
+Important for Policy makers?
+```{r}
+print("Hello World! Slide 3")
+
+```
