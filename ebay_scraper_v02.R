@@ -3,44 +3,25 @@ library(rvest)
 library(stringr)
 
 name_list <- list( list('VW-Polo', 'kleinwagen'), list('Opel-Corsa','kleinwagen'),
-                   list('Ford-Fiesta', 'kleinwagen'), list('Mini-6','kleinwagen'),
-                   list('Peugeout-207','kleinwagen'), list('Fiat-Ducato','Wohnmobil'),
-                   list('Ford-Transit','Wohnmobil'), list('VW-Transporter','Wohnmobil'),
-                   list('Iveco-Daily','Wohnmobil'), list('Mercedes-Benz-Sprinter','Wohnmobil'),
-                   list('Citroen-Jumper','Wohnmobil'), list('VW-Transporter','Utilities'),
-                   list('VW-Caddy','Utilities'), list('Citroen-Berlingo','Utilities'),
-                   list('Renault-Kangoo','Utilities'), list('Ford-Transit-Turneo','Utilities'),
-                   list('Mercedes-Benz-Vito','Utilities'), list('Mercedes-Benz-E-Klasse','Sportwagen'),
+                   list('Ford-Fiesta', 'kleinwagen'), list('Mercedes-Benz-E-Klasse','Sportwagen'),
                    list('BMW-Z4','Sportwagen'), list('Porsche-911','Sportwagen'),
-                   list('Audi-TT','Sportwagen'), list('Mercedes-Benz-SLK','Sportwagen'),
-                   list('Porsche-Boxter','Sportwagen'), list('Opel-Astra', 'kompaktklasse'),
-                   list('Audi-A3', 'kompaktklasse'), list('BMW-1er', 'kompaktklasse'),
-                   list('Ford-Focus', 'kompaktklasse'), list('Mercedes-Benz-A-Klasse', 'kompaktklasse'),
-                   list('VW-Tiguan', 'gelaendewagen'), list('BMW-X1', 'gelaendewagen'),
-                   list('Audi-Q5', 'gelaendewagen'), list('Ford-Kuga', 'gelaendewagen'),
-                   list('Skoda-Yeti', 'gelaendewagen'), list('Mercedes-Benz-GLK', 'gelaendewagen'),
+                   list('Opel-Astra', 'kompaktklasse'), list('Audi-A3', 'kompaktklasse'),
+                   list('VW-Golf', 'kompaktklasse'), list('VW-Tiguan', 'gelaendewagen'),
+                   list('BMW-X1', 'gelaendewagen'), list('Audi-Q5', 'gelaendewagen'), 
                    list('Smart-Fortwo', 'minis'), list('Fiat-Panda', 'minis'),
-                   list('Renault-Twingo', 'minis'), list('Fiat-500', 'minis'),
-                   list('Hyundai-i10', 'minis'), list('Ford-Ka', 'minis'),
-                   list('Mercedes-Benz-C-Klasse', 'mittelklassse'), list('BMW-3er', 'mittelklassse'),
-                   list('VW-Passat', 'mittelklassse'), list('Audi-A4', 'mittelklassse'),
-                   list('Opel-Insignia', 'mittelklassse'), list('Audi-A5', 'mittelklassse'),
+                   list('Renault-Twingo', 'minis'), list('Mercedes-Benz-C-Klasse', 'mittelklassse'),
+                   list('BMW-3er', 'mittelklassse'), list('VW-Passat', 'mittelklassse'),
                    list('Mercedes-Benz-E-Klasse', 'obere_mittelklasse'), list('BMW-5er', 'obere_mittelklasse'),
-                   list('Audi-A6', 'obere_mittelklasse'), list('Volvo-S70', 'obere_mittelklasse'),
-                   list('Jaguar-XF', 'obere_mittelklasse'), list('Chrysler-300C', 'obere_mittelklasse'),
+                   list('Audi-A6', 'obere_mittelklasse'),
                    list('Mercedes-Benz-S-Klasse', 'oberklasse'), list('BMW-7er', 'oberklasse'),
-                   list('Audi-A8', 'oberklasse'), list('Porsche-Panamera', 'oberklasse'),
-                   list('VW-Phaeton', 'oberklasse'), list('Mercedes-Benz-CLS', 'oberklasse')
+                   list('Audi-A8', 'oberklasse')
 )
 
 city_list <- list( list('s-stuttgart', 'k0l9280r50'), 
                    list("s-jena", "k0l3770r50"),
-                   list("s-hamburg","k0l9440r50"),
                    list('s-muenchen','k0l6411r50'),
-                   list('s-magdeburg','k0l2227r50'),
                    list('s-deggendorf','k0l5985r50'),
                    list('s-duesseldorf','k0l2068r50'),
-                   list('s-cottbus','k0l7743r50')
 )
 
 pages_to_scrape = 3
