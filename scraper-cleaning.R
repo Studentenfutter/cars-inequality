@@ -30,7 +30,7 @@ ebay$zip_code <- as.numeric(stringr::str_extract_all(as.numeric(ebay$zip_code), 
 ebay$zip_extracted <- as.numeric(stringr::str_extract(ebay$place, "(\\d{5})"))
 
 # Convert Zip Codes to RegionalIDs
-load("data/plz_codes.Rda") # Load codes dataframe
+load("data/other_data/plz_codes.Rda") # Load codes dataframe
 
 # for (i in ebay$zip_extracted) {
 #       x <- match(ebay$zip_extracted[i], codes$PLZ)
@@ -71,7 +71,6 @@ name_list <- list( list('VW-Polo', 'kleinwagen'), list('Opel-Corsa','kleinwagen'
 ebay$car <- NA
 for (i in 1:length(name_list)){
   ebay$car <- ifelse(grepl(tolower(toString(name_list[[i]][1])), ebay$url), tolower(name_list[[i]][1]), ebay$car)
-  print(tolower(toString(name_list[[i]][1])))
 }
 
 ## Data Filtering
@@ -81,11 +80,12 @@ ebay <- ebay[!(ebay$price == ""),]
 ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) %>% 
   filter(price != "1", price != "Zu verschenken") 
 
+
 ebay$price <- str_sub(ebay$price,1,str_length(ebay$price)-1)
 ebay$price <- as.numeric(ebay$price)
-
 ebay <- ebay[!is.na(ebay$price), ]
 
+ebay$price[1] <=105000
 # Filter for price above 300 and below 105000
 ebay <- ebay %>% filter(price >= 300, price <= 105000)
 
