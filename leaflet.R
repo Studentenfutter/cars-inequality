@@ -8,27 +8,32 @@ ger <- getData("GADM", country="Germany", level=2) # Change granularity level 1-
 
 # Match with car theft data from carthefts.R
 # TODO: Fill and match with left_join and @ operatr
-ger$total_carthefts <- crimes_counties$`erfasste Fälle`
-ger$relative_carthefts <- crimes_counties$`HZ nach Zensus`
 
 # Map for gpd per county
-load("data/world.Rda")
-# Remove irrelevant file from memory
-rm(world)
+load("data/external.data2.Rda")
 
 # Change name for Regional ID to CC_2
-colnames(ext)[which(names(ext) == "RegionalID")] <- "CC_2"
+colnames(ext3)[which(names(ext3) == "RegionalID")] <- "CC_2"
 colnames(ebay_location)[which(names(ebay_location) == "RegionalID")] <- "CC_2"
 colnames(ebay_ads_per_location)[which(names(ebay_ads_per_location) == "RegionalID")] <- "CC_2"
-
+colnames(ebay_avg_price_per_class)[which(names(ebay_avg_price_per_class) == "RegionalID")] <- "CC_2"
 ###
 #### Join data
 ###
-ger@data <- left_join(ger@data, ext, by = "CC_2") # Join GDP data
+#crimes_counties_cleaned <- crimes_counties[,c(12,18,19)]
+# TODO: Fill and match with left_join and @ operatr
+ger$total_carthefts <- crimes_counties$`erfasste Fälle`
+ger$relative_carthefts <- crimes_counties$`HZ nach Zensus`
+
+#ger@data <- left_join(ger@data, crimes_counties_cleaned, by = "CC_2") # Join Crime Data
+ger@data <- left_join(ger@data, ext3, by = "CC_2") # Join GDP data
 ger@data <- left_join(ger@data, ebay_location, by= "CC_2") # Join Car prices per Region
-ger@data <- left_join(ger@data, ebay_ads_per_location, by= "CC_2") # Join Tital number of ads per Region
+ger@data <- left_join(ger@data, ebay_ads_per_location, by= "CC_2") # Join Titel number of ads per Region
+ger@data <- left_join(ger@data, ebay_avg_price_per_class, by= "CC_2") # Join Tital number of ads per Region
 ger@data$bip.2016 <- as.numeric(ger@data$bip.2016)
 ger@data$bip.2017 <- as.numeric(ger@data$bip.2017)
+ger@data$gdppc.2016 <- as.numeric(ger@data$gdppc.2016)
+ger@data$gdppc.2017 <- as.numeric(ger@data$gdppc.2017)
 
 
 
@@ -38,13 +43,26 @@ load("data/plz_codes.Rda") # Import codes
 
 #create a color palette to fill the polygons
 pal <- colorQuantile("Greens", NULL, n = 5)
+hot <- colorQuantile("Reds", ger$avg.price, n = 5, na.color = "#F2F2F2")
+
 
 #create a pop up (onClick)
-polygon_popup <- paste0("<strong>Name: </strong>", ger$NAME_2, "<br>",
+# TODO: Add Table row format!
+popup_car <- paste0("<strong><center>", ger$TYPE_2, " ", ger$NAME_2, "</center></strong><br>",
+                        "<strong>Average price per car: </strong>", round(as.numeric(ger$avg.price)), "€<br>",
+                        "<strong>Standard deviation: </strong>", round(as.numeric(ger$sd.price)), "<br>",
+                        "<strong>Average prices for</strong><br>",
+                        "<strong>Small cars: </strong>", round(as.numeric(ger$Kleinwagen)), "€<br>",
+                        "<strong>SUVs: </strong>", round(as.numeric(ger$`SUV/Geländewagen`)), "€<br>",
+                        "<strong>Other categories: </strong>", round(as.numeric(ger$`Uneindeutiges Modell`)), "€<br>",
+                        "<strong>GDP per capita 2017: </strong>", round(as.numeric(ger$gdppc.2017)), " million € per year<br>")
+
+polygon_popup  <- paste0("<strong>Name: </strong>", ger$NAME_2, "<br>",
                         "<strong>Absolute Fälle: </strong>", ger$total_carthefts, "<br>",
                         "<strong>Relative Fälle: </strong>", ger$relative_carthefts, "<br>",
                         "<strong>GDP 2016: </strong>", ger$bip.2016, "<br>",
                         "<strong>GDP 2017: </strong>", ger$bip.2017, "<br>")
+
 
 # plot map of total carthefts per region
 my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>% 
@@ -52,7 +70,7 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
   setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
     # Add absolute crime rates
   addPolygons(data = ger,
-              group = "Absolute",
+              group = "Absolute car thefts",
               stroke = T,
               color = "white",
               weight = 2,
@@ -65,12 +83,12 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
                                                   bringToFront = TRUE)) %>%
     # Add relative crime rates
   addPolygons(data = ger,
-              group = "Relative",
+              group = "Relative car thefts",
               stroke = T,
               color = "white",
               weight = 2,
               fillColor= ~pal(ger$relative_carthefts),
-              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$total_carthefts),
+              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$relative_carthefts),
               fillOpacity = 0.5,
               popup = polygon_popup, 
               highlightOptions = highlightOptions(color = "red",
@@ -85,26 +103,41 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
               fillColor= ~pal(ger$pek.2016),
               label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$pek.2016),
               fillOpacity = 0.5,
-              popup = polygon_popup, 
+              popup = polygon_popup,
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE)) %>%
-  # Add GDP 2017
+  # Add GDP per Capita 2017
   addPolygons(data = ger,
-              group = "GDP 2017",
+              group = "GDP per capita 2017",
               stroke = T,
               color = "white",
               weight = 2,
-              fillColor= ~pal(ger$bip.2017),
-              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$bip.2017),
+              fillColor= ~pal(ger$gdppc.2017),
+              label = ~paste0(ger$gdppc.2017 ,"€ (", ger$NAME_2, ")"),
               fillOpacity = 0.5,
-              popup = polygon_popup, 
+              popup = polygon_popup,
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE)) %>%
+ # Add avg price data
+  addPolygons(data = ger,
+              group = "Average car price",
+              stroke = T,
+              color = "white",
+              weight = 2,
+              fillColor= ~hot(ger$avg.price),
+              label = ~paste0(round(as.numeric(ger$avg.price)) ,"€ (", ger$NAME_2, ")"),
+              fillOpacity = 0.5,
+              popup = popup_car,
+              highlightOptions = highlightOptions(color = "red",
+                                                  weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  addLegend("bottomright", pal = hot, values = ger$avg.price,
+            title = "Avg. Car Price") %>%
     # Add interactive controls
   addLayersControl(
-    baseGroups = c("Absolute", "Relative", "PEK 2016", "GDP 2017"),
+    baseGroups = c("Average car price", "Absolute car thefts", "Relative car thefts", "PEK 2016", "GDP per capita 2017"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -129,19 +162,21 @@ relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>%
 leaflet(options = leafletOptions(minZoom = 6)) %>% 
   addProviderTiles(provider = "CartoDB") %>%
   setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
-  # Add absolute crime rates
+  # Add avg price data
   addPolygons(data = ger,
               group = "Absolute",
               stroke = T,
               color = "white",
               weight = 2,
-              fillColor= ~pal(ger$avg.price),
-              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$n),
+              fillColor= ~hot(ger$avg.price),
+              label = ~paste0("Ads in ", ger$NAME_2, ": ", ger$n),
               fillOpacity = 0.5,
               popup = polygon_popup, 
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
-                                                  bringToFront = TRUE))
+                                                  bringToFront = TRUE)) %>%
+  addLegend("bottomright", pal = hot, values = ger$avg.price,
+            title = "Avg. Car Price")
 
 
 # To plot with shiny - Not working so far
