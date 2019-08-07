@@ -2,9 +2,10 @@
 # Import results
 library(readr)
 library(stringr)
-# ebay <- read_csv("data/ebay_v01.csv")
-ebay <- df
+# Load scraped data
+load("data/scraped_data/ebay.rda")
 
+ebay <- df
 
 ## PLZ
 
@@ -47,6 +48,44 @@ ebay$kilometer <- gsub("\\.", "", ebay$kilometer) # Remove . from kilometer
 
 # Rename unclear car categories
 ebay$model <- gsub("(\\d{2,})", "Uneindeutiges Modell", ebay$model)
+
+# Extract Car Names from URLs
+# ['VW-Golf', 'kompaktklasse'],
+# ['Opel-Astra', 'kompaktklasse'],
+# ['Audi-A3', 'kompaktklasse'],
+# ['BMW-1er', 'kompaktklasse'],
+# ['Ford-Focus', 'kompaktklasse'],
+# ['Mercedes-Benz-A-Klasse', 'kompaktklasse'],
+# ['VW-Tiguan', 'gelaendewagen'],
+# ['BMW-X1', 'gelaendewagen'],
+# ['Audi-Q5', 'gelaendewagen'],
+# ['Ford-Kuga', 'gelaendewagen'],
+# ['Skoda-Yeti', 'gelaendewagen'],
+# ['Mercedes-Benz-GLK', 'gelaendewagen'],
+# ['Smart-Fortwo', 'minis'],
+# ['Fiat-Panda', 'minis'],
+# ['Renault-Twingo', 'minis'],
+# ['Fiat-500', 'minis'],
+# ['Hyundai-i10', 'minis'],
+# ['Ford-Ka', 'minis'],
+# ['Mercedes-Benz-C-Klasse', 'mittelklassse'],
+# ['BMW-3er', 'mittelklassse'],
+# ['VW-Passat', 'mittelklassse'],
+# ['Audi-A4', 'mittelklassse'],
+# ['Opel-Insignia', 'mittelklassse'],
+# ['Audi-A5', 'mittelklassse'],
+# ['Mercedes-Benz-E-Klasse', 'obere_mittelklasse'],
+# ['BMW-5er', 'obere_mittelklasse'],
+# ['Audi-A6', 'obere_mittelklasse'],
+# ['Volvo-S70', 'obere_mittelklasse'],
+# ['Jaguar-XF', 'obere_mittelklasse'],
+# ['Chrysler-300C', 'obere_mittelklasse'],
+# ['Mercedes-Benz-S-Klasse', 'oberklasse'],
+# ['BMW-7er', 'oberklasse'],
+# ['Audi-A8', 'oberklasse'],
+# ['Porsche-Panamera', 'oberklasse'],
+# ['VW-Phaeton', 'oberklasse'],
+# ['Mercedes-Benz-CLS', 'oberklasse']
 
 
 ## Data Filtering
