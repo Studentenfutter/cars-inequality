@@ -90,4 +90,7 @@ knitr::include_graphics('map_circle.PNG')
 ## Inspiration for our Project
 
 Insert graphic from the article that calculated GINI -> inspiration for our project idea
+```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('INSERT_FILENAME_HERE.PNG')
 
+```
