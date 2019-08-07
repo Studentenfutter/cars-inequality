@@ -29,3 +29,11 @@ for (i in ebay$zip_code) {
 codes <- codes %>% rename(zip_code = PLZ)
 ebay$zip_code <- as.numeric(ebay$zip_code)
 ebay <- ebay %>% left_join(codes, by = 'zip_code')
+
+# Clean and Prepare values
+ebay$price <- gsub("\\s€", "", ebay$price) # Remove € and whitespace
+ebay$price <- gsub("\\.", "", ebay$price) # Remove .
+
+# Remove everything for 1€ or "Zu verschenken" - also below value x?
+ebay <- ebay %>% filter(price != "1", price != "Zu verschenken")
+ebay$price <- as.numeric(ebay$price)
