@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.8.6)  6 AUG 2019 19:01
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.8.6)  7 AUG 2019 14:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1487,7 +1487,14 @@ LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <6> not available
 
 ] [3
 
-] [4
+]
+File: ebay_screenshot.jpg Graphic file (type bmp)
+<ebay_screenshot.jpg>
+
+Overfull \vbox (28.75912pt too high) detected at line 197
+ []
+
+[4
 
 ]
 \openout4 = `EBAY-Group_Presentation.vrb'.
@@ -1496,6 +1503,15 @@ LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <6> not available
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 11.
 ) [5
+
+]
+File: map_circle.png Graphic file (type bmp)
+<map_circle.png>
+
+Overfull \vbox (25.292pt too high) detected at line 229
+ []
+
+[6
 
 ]
 \tf@nav=\write7
@@ -1507,22 +1523,22 @@ LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
 \tf@snm=\write9
 \openout9 = `EBAY-Group_Presentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 222.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 222.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 234.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 234.
 (./EBAY-Group_Presentation.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 222.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 222.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 234.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 234.
 Package rerunfilecheck Info: File `EBAY-Group_Presentation.out' has not changed
 .
 (rerunfilecheck)             Checksum: 6563A2A25342B34A73FDC0754FD2E8CA.
  ) 
 Here is how much of TeX's memory you used:
- 36815 strings out of 494894
- 756004 string characters out of 6175664
- 824564 words of memory out of 5000000
- 40171 multiletter control sequences out of 15000+600000
+ 36832 strings out of 494894
+ 756203 string characters out of 6175664
+ 824608 words of memory out of 5000000
+ 40179 multiletter control sequences out of 15000+600000
  544422 words of font info for 57 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  61i,13n,73p,1826b,726s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on EBAY-Group_Presentation.pdf (5 pages).
+Output written on EBAY-Group_Presentation.pdf (6 pages).
