@@ -16,12 +16,21 @@ load("data/world.Rda")
 # Remove irrelevant file from memory
 rm(world)
 
-# Change name for Regional ID
+# Change name for Regional ID to CC_2
 colnames(ext)[which(names(ext) == "RegionalID")] <- "CC_2"
-# Join data
-ger@data <- left_join(ger@data, ext, by = "CC_2")
+colnames(ebay_location)[which(names(ebay_location) == "RegionalID")] <- "CC_2"
+colnames(ebay_ads_per_location)[which(names(ebay_ads_per_location) == "RegionalID")] <- "CC_2"
+
+###
+#### Join data
+###
+ger@data <- left_join(ger@data, ext, by = "CC_2") # Join GDP data
+ger@data <- left_join(ger@data, ebay_location, by= "CC_2") # Join Car prices per Region
+ger@data <- left_join(ger@data, ebay_ads_per_location, by= "CC_2") # Join Tital number of ads per Region
 ger@data$bip.2016 <- as.numeric(ger@data$bip.2016)
 ger@data$bip.2017 <- as.numeric(ger@data$bip.2017)
+
+
 
 # Import PLZ data
 load("data/plz_codes.Rda") # Import codes
@@ -115,6 +124,24 @@ relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>%
                                                   weight = 3,
                                                   bringToFront = TRUE))
 
+
+## Add car data!
+leaflet(options = leafletOptions(minZoom = 6)) %>% 
+  addProviderTiles(provider = "CartoDB") %>%
+  setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
+  # Add absolute crime rates
+  addPolygons(data = ger,
+              group = "Absolute",
+              stroke = T,
+              color = "white",
+              weight = 2,
+              fillColor= ~pal(ger$avg.price),
+              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$n),
+              fillOpacity = 0.5,
+              popup = polygon_popup, 
+              highlightOptions = highlightOptions(color = "red",
+                                                  weight = 3,
+                                                  bringToFront = TRUE))
 
 
 # To plot with shiny - Not working so far
