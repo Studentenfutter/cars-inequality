@@ -123,7 +123,6 @@ ebay_scraper <- function(url, df){
   df[1,'place'] <- attr_values[1]
   df[1,'zip_code'] <- str_sub(attr_values[1],1,5)
   df[1,'text'] <- text
-  df[1, 'url'] <- url
   return(df)
   
 }
@@ -135,10 +134,10 @@ base_url <- 'https://www.ebay-kleinanzeigen.de'
 
 
 # model set up
-df <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA, url = NA)
+df <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA)
 
 
-df0 <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA, url = NA)
+df0 <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA)
 
 # loop to actually scrape data
 for (i in 1:length(hrefs)) {
@@ -149,10 +148,7 @@ for (i in 1:length(hrefs)) {
 }
 
 
-
-# Dont execute this just yet!
 df <- distinct(df,price,zip_code,model, .keep_all= TRUE)
 df <- df[!is.na(df$kilometer), ]
+df
 
-df2 <- read.csv("./Project_github/cars-inequality/data/scrape_jfg.csv")
-df2 <- df2[,c(2:10)]
