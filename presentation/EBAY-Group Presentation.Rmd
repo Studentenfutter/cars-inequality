@@ -59,6 +59,10 @@ Used car prices in rural areas are lower than in urban regions.
 
 Scraped Ebay Kleinanzeigen for (specific) used car offerings.
 
+```{r, out.width='100%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('ebay_screenshot.jpg')
+
+```
 
 
 ## Slide 3
@@ -71,3 +75,23 @@ Important for Policy makers?
 print("Hello World! Slide 3")
 
 ```
+
+
+
+
+## Slide 4
+### Circle Map
+
+```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('map_circle.PNG')
+
+```
+
+## Inspiration for our Project
+
+Insert graphic from the article that calculated GINI -> inspiration for our project idea
+```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('insert_filename_here.PNG')
+
+```
+# test
