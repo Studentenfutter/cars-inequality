@@ -9,21 +9,22 @@ ebay <- df
 
 ## PLZ
 
-# Define correcting function
-correct_zipcodes <- function (x) {
-  if (nchar(x) == 4 ) {
-    return(paste0("0", x))
-  } else if (is.na(x)) {
-    return(NA)
-  } else {
-    print(as.character(x))
-  }
-}
+# # Define correcting function
+# correct_zipcodes <- function (x) {
+#   if (nchar(x) == 4 ) {
+#     return(paste0("0", x))
+#   } else if (is.na(x)) {
+#     return(NA)
+#   } else {
+#     print(as.character(x))
+#   }
+# }
+# 
+# # Apply correcting function
+# ebay$zip_code <- map_chr(ebay$zip_code, correct_zipcodes)
+
 # Delete everything in zip_code thats not a number of 4 or more digits
 ebay$zip_code <- as.numeric(stringr::str_extract_all(as.numeric(ebay$zip_code), "(\\d{4,})"))
-
-# Apply correcting function
-ebay$zip_code <- map_chr(ebay$zip_code, correct_zipcodes)
 
 # read PLZ from place column
 ebay$zip_extracted <- as.numeric(stringr::str_extract(ebay$place, "(\\d{5})"))
@@ -47,6 +48,7 @@ ebay$price <- gsub("\\.", "", ebay$price) # Remove .
 ebay$kilometer <- gsub("\\.", "", ebay$kilometer) # Remove . from kilometer
 
 # Rename unclear car categories
+ebay$model <- gsub("(\\d{2,})", "Uneindeutiges Modell (Beziner)", ebay$model)
 ebay$model <- gsub("(\\d{2,})", "Uneindeutiges Modell", ebay$model)
 
 # Extract Car Names from URLs
@@ -101,3 +103,4 @@ ebay <- ebay %>% filter(price >= 300)
 
 # Save final results as ebay_clean
 ebay_clean <- ebay
+save(ebay_clean, file = "data/scraped_data/ebay_clean.rda")
