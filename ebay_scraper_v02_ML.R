@@ -1,6 +1,7 @@
 library(tidyverse)
 library(rvest)
 library(stringr)
+library(plyr)
 
 name_list <- list( list('VW-Polo', 'kleinwagen'), list('Opel-Corsa','kleinwagen'),
                    list('Ford-Fiesta', 'kleinwagen'), list('Mercedes-Benz-E-Klasse','Sportwagen'),
@@ -66,7 +67,7 @@ hrefs <- list()
 for(i in 1:length(css_nodes))
   hrefs <- c(hrefs,html_attr(css_nodes[[i]], 'href'))
 hrefs
-
+length(hrefs)
 for (i in 1:30){
   duplicate_check<- list()
   for (i in 1:length(hrefs)){
@@ -77,7 +78,6 @@ for (i in 1:30){
   }
 }
 length(hrefs)
-
 
 # scraper function given a url and a dataframe to scrape all entries and return attribute information
 ebay_scraper <- function(url, df){
@@ -123,6 +123,7 @@ ebay_scraper <- function(url, df){
   df[1,'place'] <- attr_values[1]
   df[1,'zip_code'] <- str_sub(attr_values[1],1,5)
   df[1,'text'] <- text
+  df[1, 'url'] <- url
   return(df)
   
 }
@@ -134,10 +135,10 @@ base_url <- 'https://www.ebay-kleinanzeigen.de'
 
 
 # model set up
-df <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA)
+df <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA, url = NA)
 
 
-df0 <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA)
+df0 <- data.frame(id=NA,model=NA,price=NA,kilometer=NA, registration_date=NA, condition = NA, zip_code= NA, text = NA, place = NA, url = NA)
 
 # loop to actually scrape data
 for (i in 1:length(hrefs)) {
@@ -147,8 +148,4 @@ for (i in 1:length(hrefs)) {
   Sys.sleep(1)
 }
 
-
-df <- distinct(df,price,zip_code,model, .keep_all= TRUE)
-df <- df[!is.na(df$kilometer), ]
-df
 
