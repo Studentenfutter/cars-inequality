@@ -7,6 +7,8 @@ ebay <- read_csv("data/ebay_v01.csv")
 correct_zipcodes <- function (x) {
   if (nchar(x) == 4 ) {
     return(paste0("0", x))
+  } else if (is.na(x)) {
+    return(NA)
   } else {
     print(as.character(x))
   }
@@ -23,5 +25,7 @@ for (i in ebay$zip_code) {
       print(x)
 }
 
-match(vector1, vector2, nomatch = NA_integer_, incomparables = NULL)
-
+# Join both data frames
+codes <- codes %>% rename(zip_code = PLZ)
+ebay$zip_code <- as.numeric(ebay$zip_code)
+ebay <- ebay %>% left_join(codes, by = 'zip_code')
