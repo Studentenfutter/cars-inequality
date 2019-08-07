@@ -81,7 +81,11 @@ ebay <- ebay[!(ebay$price == ""),]
 ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) %>% 
   filter(price != "1", price != "Zu verschenken") 
 
+ebay$price <- str_sub(ebay$price,1,str_length(ebay$price)-1)
 ebay$price <- as.numeric(ebay$price)
+
+ebay <- ebay[!is.na(ebay$price), ]
+
 # Filter for price above 300 and below 105000
 ebay <- ebay %>% filter(price >= 300, price <= 105000)
 
