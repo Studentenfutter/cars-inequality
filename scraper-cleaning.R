@@ -50,45 +50,29 @@ ebay$kilometer <- gsub("\\.", "", ebay$kilometer) # Remove . from kilometer
 # Rename unclear car categories
 ebay$model <- gsub("(\\d{2,})", "Uneindeutiges Modell (Beziner)", ebay$model)
 ebay$model <- gsub("(\\d{2,})", "Uneindeutiges Modell", ebay$model)
+ebay$model <- gsub("2/3", "Uneindeutiges Modell", ebay$model)
+ebay$model <- gsub("Schiebedach", "Uneindeutiges Modell", ebay$model)
 
 # Extract Car Names from URLs
-# ['VW-Golf', 'kompaktklasse'],
-# ['Opel-Astra', 'kompaktklasse'],
-# ['Audi-A3', 'kompaktklasse'],
-# ['BMW-1er', 'kompaktklasse'],
-# ['Ford-Focus', 'kompaktklasse'],
-# ['Mercedes-Benz-A-Klasse', 'kompaktklasse'],
-# ['VW-Tiguan', 'gelaendewagen'],
-# ['BMW-X1', 'gelaendewagen'],
-# ['Audi-Q5', 'gelaendewagen'],
-# ['Ford-Kuga', 'gelaendewagen'],
-# ['Skoda-Yeti', 'gelaendewagen'],
-# ['Mercedes-Benz-GLK', 'gelaendewagen'],
-# ['Smart-Fortwo', 'minis'],
-# ['Fiat-Panda', 'minis'],
-# ['Renault-Twingo', 'minis'],
-# ['Fiat-500', 'minis'],
-# ['Hyundai-i10', 'minis'],
-# ['Ford-Ka', 'minis'],
-# ['Mercedes-Benz-C-Klasse', 'mittelklassse'],
-# ['BMW-3er', 'mittelklassse'],
-# ['VW-Passat', 'mittelklassse'],
-# ['Audi-A4', 'mittelklassse'],
-# ['Opel-Insignia', 'mittelklassse'],
-# ['Audi-A5', 'mittelklassse'],
-# ['Mercedes-Benz-E-Klasse', 'obere_mittelklasse'],
-# ['BMW-5er', 'obere_mittelklasse'],
-# ['Audi-A6', 'obere_mittelklasse'],
-# ['Volvo-S70', 'obere_mittelklasse'],
-# ['Jaguar-XF', 'obere_mittelklasse'],
-# ['Chrysler-300C', 'obere_mittelklasse'],
-# ['Mercedes-Benz-S-Klasse', 'oberklasse'],
-# ['BMW-7er', 'oberklasse'],
-# ['Audi-A8', 'oberklasse'],
-# ['Porsche-Panamera', 'oberklasse'],
-# ['VW-Phaeton', 'oberklasse'],
-# ['Mercedes-Benz-CLS', 'oberklasse']
 
+name_list <- list( list('VW-Polo', 'kleinwagen'), list('Opel-Corsa','kleinwagen'),
+                   list('Ford-Fiesta', 'kleinwagen'), list('Mercedes-Benz-E-Klasse','Sportwagen'),
+                   list('BMW-Z4','Sportwagen'), list('Porsche-911','Sportwagen'),
+                   list('Opel-Astra', 'kompaktklasse'), list('Audi-A3', 'kompaktklasse'),
+                   list('VW-Golf', 'kompaktklasse'), list('VW-Tiguan', 'gelaendewagen'),
+                   list('BMW-X1', 'gelaendewagen'), list('Audi-Q5', 'gelaendewagen'),
+                   list('Smart-Fortwo', 'minis'), list('Fiat-Panda', 'minis'),
+                   list('Renault-Twingo', 'minis'), list('Mercedes-Benz-C-Klasse', 'mittelklassse'),
+                   list('BMW-3er', 'mittelklassse'), list('VW-Passat', 'mittelklassse'),
+                   list('Mercedes-Benz-E-Klasse', 'obere_mittelklasse'), list('BMW-5er', 'obere_mittelklasse'),
+                   list('Audi-A6', 'obere_mittelklasse'),
+                   list('Mercedes-Benz-S-Klasse', 'oberklasse'), list('BMW-7er', 'oberklasse'),
+                   list('Audi-A8', 'oberklasse'))
+ebay$car <- NA
+for (i in 1:length(name_list)){
+  ebay$car <- ifelse(grepl(tolower(toString(name_list[[i]][1])), ebay$url), tolower(name_list[[i]][1]), ebay$car)
+  print(tolower(toString(name_list[[i]][1])))
+}
 
 ## Data Filtering
 # Remove everything for 1€ or "Zu verschenken" - also below value x?
@@ -98,7 +82,8 @@ ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) %>%
   filter(price != "1", price != "Zu verschenken") 
 
 ebay$price <- as.numeric(ebay$price)
-ebay <- ebay %>% filter(price >= 300)
+# Filter for price above 300 and below 105000
+ebay <- ebay %>% filter(price >= 300, price <= 105000)
 
 
 # Save final results as ebay_clean
