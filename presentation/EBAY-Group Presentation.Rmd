@@ -94,3 +94,4 @@ Insert graphic from the article that calculated GINI -> inspiration for our proj
 knitr::include_graphics('insert_filename_here.PNG')
 
 ```
+# test
