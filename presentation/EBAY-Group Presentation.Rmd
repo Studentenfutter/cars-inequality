@@ -1,5 +1,5 @@
 ---
-title: "EBAY-Group Presentation"
+title: "Measuring Regional Inequality With Used Car Prices"
 subtitle: "Bamberg Summer Institute in Computational Social Science"
 author: ""
 date: "2019-08-08"
