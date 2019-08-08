@@ -1,7 +1,7 @@
 # Official documentation: https://rstudio.github.io/leaflet/
 # plot a map containing the regional info of germany
 library(leaflet)
-
+library(tidyverse)
 # Add Spatial data - From https://gadm.org/download_country_v3.html
 library(raster)
 ger <- getData("GADM", country="Germany", level=2) # Change granularity level 1-3, Maybe we get enough detailed data for level 2?
@@ -10,7 +10,9 @@ ger <- getData("GADM", country="Germany", level=2) # Change granularity level 1-
 # TODO: Fill and match with left_join and @ operatr
 
 # Map for gpd per county
-load("data/external.data2.Rda")
+load("data/other_data/external.data2.Rda")
+load("data/scraped_data/ebay_grouped.rda")
+load("data/other_data/crimes_counties.rda")
 
 # Change name for Regional ID to CC_2
 colnames(ext3)[which(names(ext3) == "RegionalID")] <- "CC_2"
@@ -38,7 +40,7 @@ ger@data$gdppc.2017 <- as.numeric(ger@data$gdppc.2017)
 
 
 # Import PLZ data
-load("data/plz_codes.Rda") # Import codes
+load("data/other_data/plz_codes.Rda") # Import codes
 
 
 #create a color palette to fill the polygons
@@ -63,6 +65,8 @@ polygon_popup  <- paste0("<strong>Name: </strong>", ger$NAME_2, "<br>",
                         "<strong>GDP 2016: </strong>", ger$bip.2016, "<br>",
                         "<strong>GDP 2017: </strong>", ger$bip.2017, "<br>")
 
+# Save files for plotting in shiny
+save(ger, pal, hot, popup_car, polygon_popup, file = "data/other_data/map.rda")
 
 # plot map of total carthefts per region
 my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>% 
@@ -141,43 +145,44 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
     options = layersControlOptions(collapsed = FALSE)
   )
 
+
 # plot map of relative carthefts per region
-relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>% 
-  addProviderTiles(provider = "CartoDB") %>%
-  setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
-  addPolygons(data = ger,
-              stroke = T,
-              color = "white",
-              weight = 2,
-              fillColor= ~pal(ger$relative_carthefts),
-              label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$total_carthefts),
-              fillOpacity = 0.5,
-              popup = polygon_popup, 
-              highlightOptions = highlightOptions(color = "red",
-                                                  weight = 3,
-                                                  bringToFront = TRUE))
-
-
-## Add car data!
-leaflet(options = leafletOptions(minZoom = 6)) %>% 
-  addProviderTiles(provider = "CartoDB") %>%
-  setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
-  # Add avg price data
-  addPolygons(data = ger,
-              group = "Absolute",
-              stroke = T,
-              color = "white",
-              weight = 2,
-              fillColor= ~hot(ger$avg.price),
-              label = ~paste0("Ads in ", ger$NAME_2, ": ", ger$n),
-              fillOpacity = 0.5,
-              popup = polygon_popup, 
-              highlightOptions = highlightOptions(color = "red",
-                                                  weight = 3,
-                                                  bringToFront = TRUE)) %>%
-  addLegend("bottomright", pal = hot, values = ger$avg.price,
-            title = "Avg. Car Price")
-
+# relative_carthefts <- leaflet(options = leafletOptions(minZoom = 6)) %>% 
+#   addProviderTiles(provider = "CartoDB") %>%
+#   setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
+#   addPolygons(data = ger,
+#               stroke = T,
+#               color = "white",
+#               weight = 2,
+#               fillColor= ~pal(ger$relative_carthefts),
+#               label = ~paste0(ger$TYPE_2, " ", ger$NAME_2, ": ", ger$total_carthefts),
+#               fillOpacity = 0.5,
+#               popup = polygon_popup, 
+#               highlightOptions = highlightOptions(color = "red",
+#                                                   weight = 3,
+#                                                   bringToFront = TRUE))
+# 
+# 
+# ## Add car data!
+# leaflet(options = leafletOptions(minZoom = 6)) %>% 
+#   addProviderTiles(provider = "CartoDB") %>%
+#   setView(lat=51.133333, lng=10.416667, zoom = 6) %>%
+#   # Add avg price data
+#   addPolygons(data = ger,
+#               group = "Absolute",
+#               stroke = T,
+#               color = "white",
+#               weight = 2,
+#               fillColor= ~hot(ger$avg.price),
+#               label = ~paste0("Ads in ", ger$NAME_2, ": ", ger$n),
+#               fillOpacity = 0.5,
+#               popup = polygon_popup, 
+#               highlightOptions = highlightOptions(color = "red",
+#                                                   weight = 3,
+#                                                   bringToFront = TRUE)) %>%
+#   addLegend("bottomright", pal = hot, values = ger$avg.price,
+#             title = "Avg. Car Price")
+# 
 
 # To plot with shiny - Not working so far
 library(shiny)
