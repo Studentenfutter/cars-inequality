@@ -1,12 +1,12 @@
 # Scrape car thefts per Landkreis
 theft_url <- "https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2018/BKATabellen/FaelleLaenderKreiseStaedte/BKA-LKS-F-04-T01-Kreise-Fallentwicklung_csv.csv"
-curl::curl_download(gini_url, "data/theft.csv")
+curl::curl_download(theft_url, "data/other_data/theft.csv")
 # Files have been manually cleaned
 
 # Import ger-Spatial data-frame from leaflet.R
 # load("leaflet.R") - to load ger vector
 
-theft <- read_csv("data/theft.csv")
+theft <- read_csv("data/other_data/theft.csv")
 
 counties <- as.data.frame(ger)
 
@@ -23,5 +23,8 @@ colnames(theft)[which(names(theft) == "Gemeinde-schlüssel")] <- "CC_2"
 
 # Join row of cases with the countries dataset both datasets
 crimes_counties <- left_join(counties, theft, by = "CC_2") #Join matching rows from theft to counties
+
+# Save Output
+save(crimes_counties, file = "data/other_data/crimes_counties.rda")
 # crimes_counties <- full_join(theft, counties, by = "CC_2")
 # crimes_counties <- arrange(crimes_counties, CC_2)
