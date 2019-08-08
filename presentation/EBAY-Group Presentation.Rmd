@@ -98,29 +98,49 @@ knitr::include_graphics('car_classes.jpg')
 
 ## Analyses
 
-OLS (price ~ city + ...............)
+OLS (price ~ cities + mileage + age)
 
+**(insert plot and/or regression table here)**
 
+## Map Visualization
 
-
+**insert link/code/whatever here**
 
 
 
 ## Next Steps
- **Subtitle 3.1.**
 
-Practical applications
-
-Important for Policy makers?
-
+- Extend data collection (more cities, car models, other products)
+- Access APIs of other platforms
+- Include additional control variables (condition, configurations, etc.)
 
 
-## Slide 4
-### Circle Map
+## Application
 
+- Tool for policy advisors
+- Potential robustness test for consumer index measures (purchasing power)
+- Tool for prospective car sellers/buyers
 
 
 ## Reproduceability
 
 https://github.com/Studentenfutter/cars-inequality
+
+
+## Sources:
+
+- Kholodilin, K. A., & Siliverstovs, B. (2012) Measuring regional inequality by internet car price advertisements: Evidence for Germany. Economics Letters, 116(3), 414-417. www-sre.wu.ac.at/ersa/ersaconfs/ersa12/e120821aFinal00913.pdf. 
+- eBay Kleinanzeigen (2019) www.ebay-kleinanzeigen.de/.
+- Statistische Ämter des Bundes und der Ämter (2019) Volkswirtschaftliche Gesamtrechnungen der Länder VGRdL. www.statistik-bw.de/VGRdL/tbls/?rev=RV2014&lang=de-DE#RV2014KR. 
+- Kraftfahrtbundesamt (2011) Neuzulassungen von Personenkraftwagen nach Segmenten und Modellreihen im Dezember 2010 
+https://web.archive.org/web/20140531110101/http://www.kba.de/DE/Presse/Presseportal/N_Segmente_Modellreihen_FZ11/N_Segmente2010/n_seg_12_10_pdf.pdf?__blob=publicationFile&v=4.
+
+
+## Sources:
+
+- GADM (2018) Country Spatial Data (version 3.6). https://gadm.org/download_country_v3.html.
+- SERP Perception (2009) Umkreissuche PLZ/Ort. www.serp-perception.com/umkreissuche.php.
+- Bundeskriminalamt (2018) PKS 2018 - BKA (Länder-, Kreis- und Städte) Übersicht Falltabellen, Grundtabelle - Kreise - ausgewählte Straftaten/-gruppen.
+www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2018/BKATabellen/bkaTabellenLaenderKreiseStaedteFaelle.html?nn=108686.
+
 
