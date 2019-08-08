@@ -37,7 +37,8 @@ ger@data$bip.2017 <- as.numeric(ger@data$bip.2017)
 ger@data$gdppc.2016 <- as.numeric(ger@data$gdppc.2016)
 ger@data$gdppc.2017 <- as.numeric(ger@data$gdppc.2017)
 
-
+# Wieviele Autos kann man sich zum durchschn. Gebrauchtwagenpreis von einem durchschnittlichen pro Kopf einkommen pro Kopf kaufen?
+ger@data$avg.price.with.pek <- ger@data$pek.2016 / ger@data$avg.price
 
 # Import PLZ data
 load("data/other_data/plz_codes.Rda") # Import codes
@@ -46,7 +47,7 @@ load("data/other_data/plz_codes.Rda") # Import codes
 #create a color palette to fill the polygons
 pal <- colorQuantile("Greens", NULL, n = 5)
 hot <- colorQuantile("Reds", ger$avg.price, n = 5, na.color = "#F2F2F2")
-
+gdp <- colorQuantile("Reds", ger$gdppc.2017, n = 5, na.color = "#F2F2F2")
 
 #create a pop up (onClick)
 # TODO: Add Table row format!
@@ -117,7 +118,7 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
               stroke = T,
               color = "white",
               weight = 2,
-              fillColor= ~pal(ger$gdppc.2017),
+              fillColor= ~gdp(ger$gdppc.2017),
               label = ~paste0(ger$gdppc.2017 ,"€ (", ger$NAME_2, ")"),
               fillOpacity = 0.5,
               popup = polygon_popup,
@@ -137,12 +138,13 @@ my_map <- leaflet(options = leafletOptions(minZoom = 6)) %>%
               highlightOptions = highlightOptions(color = "red",
                                                   weight = 3,
                                                   bringToFront = TRUE)) %>%
-  addLegend("bottomright", pal = hot, values = ger$avg.price,
+  addLegend("bottomright", group = "Average car price", pal = hot, values = round(as.numeric(ger$avg.price)),
             title = "Avg. Car Price") %>%
     # Add interactive controls
   addLayersControl(
     baseGroups = c("Average car price", "Absolute car thefts", "Relative car thefts", "PEK 2016", "GDP per capita 2017"),
-    options = layersControlOptions(collapsed = FALSE)
+    options = layersControlOptions(collapsed = FALSE) #%>% 
+      #hideGroup("GDP per capita 2017")
   )
 
 
