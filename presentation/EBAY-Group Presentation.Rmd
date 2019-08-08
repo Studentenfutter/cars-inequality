@@ -33,8 +33,29 @@ knitr::knit_hooks$set(output = function(x, options) {
 })
 ```
 
+```{r, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+setwd("P:/07_Current Projects/SICSS/Group Project Week II/Github/cars-inequality/presentation")
+```
 
-# Section A (delete befor publication)
+
+## Inspiration
+
+Kholodilin, K. & Siliverstovs, B. (2012) Measuring Regional Inequality by Internet Car Price Advertisements: Evidence for Germany.
+
+```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('average_car_price.PNG')
+
+```
+
+## Inspiration
+
+Kholodilin, K. & Siliverstovs, B. (2012) Measuring Regional Inequality by Internet Car Price Advertisements: Evidence for Germany.
+
+```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('gini_coeffs.PNG')
+
+```
 
 
 ## Question and Hypotheses
@@ -47,7 +68,7 @@ Do economic disparities between German cities/regions influence the prices of us
 The higher a city's GDP per capita, the higher is the expected price of used automobiles.
 
 ### Hypothesis 2: 
-Used car prices in rural areas are lower than in urban regions.
+??????????Used car prices in rural areas are lower than in urban regions.
 
 ```{r eval=FALSE, include=FALSE}
 ## This chunk will not run or be published
