@@ -89,6 +89,22 @@ ebay$price[1] <=105000
 # Filter for price above 300 and below 105000
 ebay <- ebay %>% filter(price >= 300, price <= 105000)
 
+# Further cleaning code
+# eb <- ebay_clean
+# eb2 <- ebay_clean %>% filter(price < 123456)
+# eb$age <- 2019 - as.numeric(eb$registration_date) # Calcuate age of car
+# eb <- eb %>% filter(age < 100)
+# eb2 <- eb %>%  distinct(text, .keep_all= TRUE)
+# eb2$kilometer <- eb2$kilometer %>% as.numeric()
+# eb2 <- eb2 %>% filter(kilometer > 500)
+# 
+# load("data/other_data/external.data2.Rda")
+# eb3 <- left_join(eb2, ext3, by = "RegionalID")
+# eb3$gdppc.2017 <- eb3$gdppc.2017 %>% as.numeric()
+# 
+# theft <- read.csv("data/other_data/theft.csv")
+# theft$Gemeinde.schlÃ.sselneu <- paste0("0", stringr::str_extract(theft$Gemeinde.schlÃ.ssel, "(\\d{4})"))
+# eb4 <- left_join(eb3, theft, by = c("RegionalID" = "Gemeinde.schlÃ.sselneu"))
 
 # Save final results as ebay_clean
 ebay_clean <- ebay
