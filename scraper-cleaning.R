@@ -93,6 +93,24 @@ ebay <- ebay %>%
   filter(registration_date >= 1950, registration_date <= 2019) %>% 
   filter(as.numeric(kilometer) >= 500)
 
+ebay$age <- 2019 - as.numeric(ebay$registration_date) # Calcuate age of car
+ebay <- ebay %>%  distinct(text, .keep_all= TRUE)
+
+ebay$kilometer <- ebay$kilometer %>% as.numeric()
+
+
+# data merging
+load("data/other_data/external.data2.Rda")
+ebay <- left_join(ebay, ext3, by = "RegionalID")
+ebay$gdppc.2017 <- ebay$gdppc.2017 %>% as.numeric()
+
+
+theft <- read.csv("data/other_data/theft.csv")
+theft$Gemeinde.schlÃ.sselneu <- paste0("0", stringr::str_extract(theft$Gemeinde.schlÃ.ssel, "(\\d{4})"))
+ebay <- left_join(ebay, theft, by = c("RegionalID" = "Gemeinde.schlÃ.sselneu"))
+
+
+
 #outlier detection with boxplots
 outlier_values <- boxplot.stats(ebay$price)$out  # outlier values.
 boxplot(ebay$price, main="Price", boxwex=0.1)
@@ -112,6 +130,23 @@ influential <- na.omit(influential)
 influential
 
 ebay <- ebay[-influential,]
+=======
+# Further cleaning code
+# eb <- ebay_clean
+# eb2 <- ebay_clean %>% filter(price < 123456)
+# eb$age <- 2019 - as.numeric(eb$registration_date) # Calcuate age of car
+# eb <- eb %>% filter(age < 100)
+# eb2 <- eb %>%  distinct(text, .keep_all= TRUE)
+# eb2$kilometer <- eb2$kilometer %>% as.numeric()
+# eb2 <- eb2 %>% filter(kilometer > 500)
+# 
+# load("data/other_data/external.data2.Rda")
+# eb3 <- left_join(eb2, ext3, by = "RegionalID")
+# eb3$gdppc.2017 <- eb3$gdppc.2017 %>% as.numeric()
+# 
+# theft <- read.csv("data/other_data/theft.csv")
+# theft$Gemeinde.schlÃ.sselneu <- paste0("0", stringr::str_extract(theft$Gemeinde.schlÃ.ssel, "(\\d{4})"))
+# eb4 <- left_join(eb3, theft, by = c("RegionalID" = "Gemeinde.schlÃ.sselneu"))
 
 # Save final results as ebay_clean
 ebay_clean <- ebay

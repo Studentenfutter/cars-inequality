@@ -3,7 +3,8 @@ rm(list = ls())
 #####
 library(janitor)
 library(tidyverse)
-##### Import real df ebay from scraper-cleaning.R
+##### Import ebay_clean from scraper-cleaning.R
+load("data/scraped_data/ebay_clean.rda")
 
 
 ebay_grouped <- ebay_clean %>%
@@ -13,6 +14,9 @@ ebay_grouped <- ebay_clean %>%
     "median.price" = median(price),
     "sd.price" = sd(price)
   ) 
+
+# Convert to wide format to join columns with leaflet ger
+ebay_avg_price_per_class <- ebay_grouped[,1:3] %>% spread(model, avg.price)
 
 ebay_location <- ebay_clean %>%
   group_by(RegionalID) %>% 
@@ -25,14 +29,16 @@ ebay_location <- ebay_clean %>%
 ebay_ads_per_location <- ebay_clean %>% group_by(RegionalID) %>% tally()
 
 
-classes_region <- ebay %>%
-  group_by(RegionalID, model_group) %>%
+ebay_ads_per_location <- ebay_clean %>%
+  group_by(RegionalID, model) %>%
   summarize(
     "avg.price" = mean(price),
     "median.price" = median(price),
     "sd.price" = sd(price)
   )
 
+# Save Output 
+save(ebay_grouped, ebay_avg_price_per_class, ebay_location, ebay_ads_per_location, ebay_ads_per_location, file = "data/scraped_data/ebay_grouped.rda")
 
 ##### Sample Data
 

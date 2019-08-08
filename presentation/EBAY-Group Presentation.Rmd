@@ -34,7 +34,14 @@ knitr::knit_hooks$set(output = function(x, options) {
 ```
 
 
-# Section A (delete befor publication)
+## Inspiration
+
+Kholodilin, K. & Siliverstovs, B. (2012) Measuring Regional Inequality by Internet Car Price Advertisements: Evidence for Germany.
+
+```{r, out.width='60%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('gini_coeffs.PNG')
+
+```
 
 
 ## Question and Hypotheses
@@ -46,52 +53,74 @@ Do economic disparities between German cities/regions influence the prices of us
 ### Hypothesis 1: 
 The higher a city's GDP per capita, the higher is the expected price of used automobiles.
 
-### Hypothesis 2: 
-Used car prices in rural areas are lower than in urban regions.
 
-```{r eval=FALSE, include=FALSE}
-## This chunk will not run or be published
+## Data Scraping
 
-```
-
-
-## Data
-
-Scraped Ebay Kleinanzeigen for (specific) used car offerings.
-
-```{r, out.width='100%', out.height='80%', echo = FALSE, fig.align = 'center'}
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
 knitr::include_graphics('ebay_screenshot.jpg')
 
 ```
 
 
-## Slide 3
-### Subtitle 3.1.
+## Sample
+
+Five cities (+50km): Munich, Jena, Dusseldorf, Stuttgart, and Deggendorf
+
+```{r, out.width='80%',  echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('map_circle.PNG')
+
+```
+
+## Sample
+
+24 representative car models (top registrations per class in 2010)
+
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('car_classes.jpg')
+
+```
+(source: Kraftfahrtbundesamt)
+
+## Data
+
+###Scraped variables:
+- Model & class
+- Price
+- Description
+- Location
+- Age & mileage
+
+###Merged with macroeconomic indicators:
+- GDP per capita
+- Household income per capita
+- Car thefts per capita
+
+
+## Analyses
+
+OLS (price ~ city + ...............)
+
+
+
+
+
+
+
+## Next Steps
+ **Subtitle 3.1.**
 
 Practical applications
 
 Important for Policy makers?
-```{r}
-print("Hello World! Slide 3")
-
-```
-
 
 
 
 ## Slide 4
 ### Circle Map
 
-```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
-knitr::include_graphics('map_circle.PNG')
 
-```
 
-## Inspiration for our Project
+## Reproduceability
 
-Insert graphic from the article that calculated GINI -> inspiration for our project idea
-```{r, out.width='80%', out.height='80%', echo = FALSE, fig.align = 'center'}
-knitr::include_graphics('insert_filename_here.PNG')
+https://github.com/Studentenfutter/cars-inequality
 
-```
-# test
