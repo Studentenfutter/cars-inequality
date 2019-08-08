@@ -2,6 +2,7 @@
 # Import results
 library(readr)
 library(stringr)
+library(tidyverse)
 # Load scraped data
 load("data/scraped_data/ebay.rda")
 
@@ -77,8 +78,7 @@ for (i in 1:length(name_list)){
 # Remove everything for 1€ or "Zu verschenken" - also below value x?
 ebay <- ebay[!is.na(ebay$kilometer), ]
 ebay <- ebay[!(ebay$price == ""),]
-ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) %>% 
-  filter(price != "1", price != "Zu verschenken") 
+ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) 
 
 
 ebay$price <- str_sub(ebay$price,1,str_length(ebay$price)-1)
@@ -87,8 +87,31 @@ ebay <- ebay[!is.na(ebay$price), ]
 
 ebay$price[1] <=105000
 # Filter for price above 300 and below 105000
-ebay <- ebay %>% filter(price >= 300, price <= 105000)
+ebay <- ebay %>% 
+  filter(price != "1", price != "Zu verschenken") %>% 
+  filter(price >= 300, price <= 105000) %>% 
+  filter(registration_date >= 1950, registration_date <= 2019) %>% 
+  filter(as.numeric(kilometer) >= 500)
 
+#outlier detection with boxplots
+outlier_values <- boxplot.stats(ebay$price)$out  # outlier values.
+boxplot(ebay$price, main="Price", boxwex=0.1)
+mtext(paste("Outliers: ", paste(outlier_values, collapse=", ")), cex=0.6)
+
+boxplot(price ~ RegionalID, data=ebay, main="Prices across regions")
+
+mod <- lm(price ~ RegionalID, data=ebay)
+cooksd <- cooks.distance(mod)
+
+plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")  # plot cook's distance
+abline(h = 6*mean(cooksd, na.rm=T), col="red")  # add cutoff line
+text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>6*mean(cooksd, na.rm=T),names(cooksd),""), col="red")  # add labels
+
+influential <- as.numeric(names(cooksd)[(cooksd > 6*mean(cooksd, na.rm=T))])
+influential <- na.omit(influential)
+influential
+
+ebay <- ebay[-influential,]
 
 # Save final results as ebay_clean
 ebay_clean <- ebay
