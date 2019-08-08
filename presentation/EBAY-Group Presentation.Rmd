@@ -122,7 +122,7 @@ knitr::include_graphics('scatter.png')
 
 ## Analysis
 
-OLS:   (price ~ cities + mileage + age + GDP_PC)
+OLS:   (price ~ cities + mileage + age + gdp_pc)
 
 ```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
 knitr::include_graphics('dotwhisker.png')
@@ -145,6 +145,7 @@ knitr::include_graphics('map.png')
 
 ```
 
+https://cloud.sowi.uni-due.de/index.php/s/37LjkxP7DCe4j36
 
 
 ## Next Steps
@@ -159,11 +160,6 @@ knitr::include_graphics('map.png')
 - Tool for policy advisors
 - Potential robustness test for consumer index measures (purchasing power)
 - Tool for prospective car sellers/buyers
-
-
-## Reproduceability
-
-https://github.com/Studentenfutter/cars-inequality
 
 
 ## Sources:
@@ -181,5 +177,11 @@ https://web.archive.org/web/20140531110101/http://www.kba.de/DE/Presse/Pressepor
 - SERP Perception (2009) Umkreissuche PLZ/Ort. www.serp-perception.com/umkreissuche.php.
 - Bundeskriminalamt (2018) PKS 2018 - BKA (Länder-, Kreis- und Städte) Übersicht Falltabellen, Grundtabelle - Kreise - ausgewählte Straftaten/-gruppen.
 www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2018/BKATabellen/bkaTabellenLaenderKreiseStaedteFaelle.html?nn=108686.
+
+
+## Reproduceability
+
+https://github.com/Studentenfutter/cars-inequality
+
 
 
