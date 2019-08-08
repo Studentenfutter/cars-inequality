@@ -50,7 +50,7 @@ knitr::include_graphics('gini_coeffs.PNG')
 
 Do economic disparities between German cities/regions influence the prices of used cars?
 
-### Hypothesis 1: 
+### Hypothesis: 
 The higher a city's GDP per capita, the higher is the expected price of used automobiles.
 
 
@@ -64,7 +64,7 @@ knitr::include_graphics('ebay_screenshot.jpg')
 
 ## Sample
 
-Five cities (+50km): Munich, Jena, Dusseldorf, Stuttgart, and Deggendorf
+Five cities (+50km): Munich, Jena, Düsseldorf, Stuttgart, and Deggendorf
 
 ```{r, out.width='80%',  echo = FALSE, fig.align = 'center'}
 knitr::include_graphics('map_circle.PNG')
@@ -96,15 +96,54 @@ knitr::include_graphics('car_classes.jpg')
 - Car thefts per capita
 
 
-## Analyses
+## Workflow
 
-OLS (price ~ cities + mileage + age)
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('github_screenshot.PNG')
 
-**(insert plot and/or regression table here)**
+```
+
+
+## Workflow
+
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('workflow.PNG')
+
+```
+
+
+## Analysis
+
+```{r, out.width='80%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('scatter.png')
+
+```
+
+
+## Analysis
+
+OLS:   (price ~ cities + mileage + age + GDP_PC)
+
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('dotwhisker.png')
+
+```
+
+
+## Analysis
+
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('country.png')
+
+```
+
 
 ## Map Visualization
 
-**insert link/code/whatever here**
+```{r, out.width='100%', echo = FALSE, fig.align = 'center'}
+knitr::include_graphics('map.png')
+
+```
 
 
 
