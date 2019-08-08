@@ -3,6 +3,7 @@
 library(readr)
 library(stringr)
 library(tidyverse)
+library(readxl)
 # Load scraped data
 load("data/scraped_data/ebay.rda")
 
@@ -80,10 +81,10 @@ ebay <- ebay[!is.na(ebay$kilometer), ]
 ebay <- ebay[!(ebay$price == ""),]
 ebay <- distinct(ebay,price,zip_code,model, .keep_all= TRUE) 
 
-
 ebay$price <- str_sub(ebay$price,1,str_length(ebay$price)-1)
 ebay$price <- as.numeric(ebay$price)
 ebay <- ebay[!is.na(ebay$price), ]
+ebay <- ebay[!is.na(ebay$RegionalID), ]
 
 ebay$price[1] <=105000
 # Filter for price above 300 and below 105000
@@ -104,11 +105,23 @@ load("data/other_data/external.data2.Rda")
 ebay <- left_join(ebay, ext3, by = "RegionalID")
 ebay$gdppc.2017 <- ebay$gdppc.2017 %>% as.numeric()
 
-
+names(theft[3])
 theft <- read.csv("data/other_data/theft.csv")
-theft$Gemeinde.schlÃ.sselneu <- paste0("0", stringr::str_extract(theft$Gemeinde.schlÃ.ssel, "(\\d{4})"))
-ebay <- left_join(ebay, theft, by = c("RegionalID" = "Gemeinde.schlÃ.sselneu"))
+theft$new_key <- paste0("0", stringr::str_extract(theft$Gemeinde.schl�.ssel, "(\\d{4})"))
+ebay <- left_join(ebay, theft, by = c("RegionalID" = "new_key"))
 
+cities <- read_excel("data/other_data/plz_five_cities.xlsx", sheet = 2)
+
+ebay$zip_extracted <- ebay$zip_extracted %>% 
+  as.numeric()
+
+cities$zip <- cities$zip %>% 
+  as.numeric()
+
+cities <- cities %>% 
+  na.omit()
+
+ebay <- left_join(ebay, cities, by = c("zip_extracted" = "zip")) %>% distinct(text, .keep_all= TRUE)
 
 
 #outlier detection with boxplots
@@ -130,23 +143,7 @@ influential <- na.omit(influential)
 influential
 
 ebay <- ebay[-influential,]
-=======
-# Further cleaning code
-# eb <- ebay_clean
-# eb2 <- ebay_clean %>% filter(price < 123456)
-# eb$age <- 2019 - as.numeric(eb$registration_date) # Calcuate age of car
-# eb <- eb %>% filter(age < 100)
-# eb2 <- eb %>%  distinct(text, .keep_all= TRUE)
-# eb2$kilometer <- eb2$kilometer %>% as.numeric()
-# eb2 <- eb2 %>% filter(kilometer > 500)
-# 
-# load("data/other_data/external.data2.Rda")
-# eb3 <- left_join(eb2, ext3, by = "RegionalID")
-# eb3$gdppc.2017 <- eb3$gdppc.2017 %>% as.numeric()
-# 
-# theft <- read.csv("data/other_data/theft.csv")
-# theft$Gemeinde.schlÃ.sselneu <- paste0("0", stringr::str_extract(theft$Gemeinde.schlÃ.ssel, "(\\d{4})"))
-# eb4 <- left_join(eb3, theft, by = c("RegionalID" = "Gemeinde.schlÃ.sselneu"))
+
 
 # Save final results as ebay_clean
 ebay_clean <- ebay
