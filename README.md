@@ -8,5 +8,5 @@ The project aimed to use web-craping techniques to retrieve data for used cars s
 
 ![OLS Regression of effects on car price](https://github.com/Studentenfutter/cars-inequality/raw/master/presentation/dotwhisker.png "OLS Regression of effects on car price")
 
- This repository contains the scraper and the complete code for all steps of our analysis, which was completely done in R. In addition we compiled an interactive map as a potential tool for Tool for policy advisors and prospective car sellers/buyers - due to file size limits the leaflet map cant be hosted on github but can be viewed by downloading and extracting [this zip file](https://drive.google.com/file/d/15fgAFabCP4UoCFuvmKpKP6tbWgPBlJFa/view?usp=sharing). 
+ This repository contains the scraper and the complete code for all steps of our analysis, which was completely done in R. In addition we compiled an interactive map as a potential tool for policy advisors and prospective car sellers/buyers - due to file size limits the leaflet map cant be hosted on github but can be viewed by downloading and extracting [this zip file](https://drive.google.com/file/d/15fgAFabCP4UoCFuvmKpKP6tbWgPBlJFa/view?usp=sharing). 
  Unfortunately no further analyses was feasible during the 4 day project.
