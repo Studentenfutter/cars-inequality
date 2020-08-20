@@ -4,7 +4,7 @@
 
 This repository represents a incomplete version for a web-scraping group project during the [Princeton Summer Institute for Computational Social Science in Bamberg 2019](https://compsocialscience.github.io/summer-institute/2019/bamberg/). Members of this group were Marc Luettecke, Florian Gilberg, Manuel Kleinert, Alexander Brand and Johannes Geiger.
 
-The project aimed to use web-craping techniques to retrieve data for used cars sold on ebay Kleinanzeigen (The German equivalent of [Craigslist](craigslist.org)) for selected regions and combine this data with indicators of income and potential economic inequality, as well as data on car theft in the examined regions. We hypothesized that these external factors significantly influence the median price of the vehicles for sale. First results can be found in our [group presentation](https://github.com/Studentenfutter/cars-inequality/blob/master/presentation/EBAY-Group_Presentation.pdf).
+The project aimed to use web-scraping techniques to retrieve data for used cars sold on [ebay Kleinanzeigen](https://www.ebay-kleinanzeigen.de/) (The German equivalent of [Craigslist](craigslist.org)) for selected regions and combine this data with indicators of income and potential economic inequality, as well as data on car theft in the examined regions. We hypothesized that these external factors significantly influence the median price of the vehicles for sale. First results can be found in our [group presentation](https://github.com/Studentenfutter/cars-inequality/blob/master/presentation/EBAY-Group_Presentation.pdf).
 
 ![OLS Regression of effects on car price](https://github.com/Studentenfutter/cars-inequality/raw/master/presentation/dotwhisker.png "OLS Regression of effects on car price")
 
